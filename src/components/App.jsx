@@ -33,6 +33,8 @@ class App extends React.Component {
       delete pub.lat;
       delete pub.lon;
       delete pub.id;
+
+      return pub;
     });
 
     const geoJson = {
