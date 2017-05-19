@@ -17,27 +17,12 @@ class Map extends PureComponent {
     mapboxgl.accessToken = accessToken;
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/device25/ciutqc2xo01152jl8n8vgjkna',
+      style: 'mapbox://styles/mapbox/light-v9',
+      center: [37.4233, 55.6165],
+      zoom: 8.2
+      // style: 'mapbox://styles/device25/ciutqc2xo01152jl8n8vgjkna',
     });
 
-    // map.on('load', () => {
-    //   map.addSource('pubs', {type: 'geojson', data: this.props.pubs});
-    //   map.addLayer({
-    //     id: 'pubs',
-    //     type: 'circle',
-    //     source: 'pubs',
-    //   });
-    //   map.addLayer({
-    //     "id": "pubsNames",
-    //     'type': 'symbol',
-    //     "source": "pubs",
-    //     'layout': {
-    //       'text-field': '{name}',
-    //       'text-size': 14,
-    //       'text-offset': [0, 0.6]
-    //     }
-    //   });
-    // });
     this.map.on('load', this.onLoad);
   }
 
@@ -89,7 +74,7 @@ class Map extends PureComponent {
       "type": "circle",
       "source": "pubs",
       "paint": {
-        "circle-color": 'blue',
+        "circle-color": '#5c9ed8',
       }
     });
 
@@ -101,7 +86,7 @@ class Map extends PureComponent {
   onMouseMove(e) {
     const features = this.map.queryRenderedFeatures(e.point, { layers: ['pubs'] });
     if (features.length > 0) {
-      console.log(features[0].properties);
+      // console.log(features[0]);
       const properties = features[0].properties;
 
       this.popup
