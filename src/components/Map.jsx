@@ -18,8 +18,8 @@ class Map extends PureComponent {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
-      center: [37.4233, 55.6165],
-      zoom: 8.2
+      center: this.props.center,
+      zoom: 9
       // style: 'mapbox://styles/device25/ciutqc2xo01152jl8n8vgjkna',
     });
 

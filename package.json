@@ -6,8 +6,11 @@
     "react-scripts": "0.9.5"
   },
   "dependencies": {
+    "osmtogeojson": "3.0.0-beta.0",
+    "ramda": "0.23.0",
     "react": "15.5.4",
-    "react-dom": "15.5.4"
+    "react-dom": "15.5.4",
+    "xml-js": "1.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
