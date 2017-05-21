@@ -8,12 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      features: {},
-      latitude: null,
-      longitude: null,
-      accuracy: null
-      // latitude: 55.0,
-      // longitude: 37.0
+      features: {}
     };
   }
 
@@ -39,17 +34,20 @@ class App extends Component {
   }
 
   render() {
+    const { features, longitude, latitude, accuracy } = this.state;
+
     return (
       <div>
         {
-          isEmpty(this.state.features) &&
-          <h2>loading...</h2>
+          isEmpty(features) &&
+          <h2 style={{ width: '100px', margin: 'auto' }}>loading...</h2>
         }
         {
-          !isEmpty(this.state.features) &&
+          !isEmpty(features) &&
           <Map
-            pubs={this.state.features}
-            center={[this.state.longitude, this.state.latitude]}
+            pubs={features}
+            center={[longitude, latitude]}
+            accuracy={accuracy}
           />
         }
       </div>
