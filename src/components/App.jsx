@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { js2xml } from 'xml-js';
 import osmtogeojson from 'osmtogeojson';
 import { isEmpty } from 'ramda';
 
@@ -11,53 +10,29 @@ class App extends Component {
     this.state = {
       features: {},
       latitude: null,
-      longitude: null
+      longitude: null,
+      accuracy: null
       // latitude: 55.0,
       // longitude: 37.0
     };
   }
 
   componentDidMount() {
-    // const test = '<?xml version="1.0" encoding="UTF-8"?>' +
-    //   '<osm-script output="json">' +
-    //   '<query into="_" type="node">' +
-    //   '<has-kv k="amenity" modv="" v="pub"/>' +
-    //   '<bbox-query e="38.4796142578125" into="_" n="56.15931775281314" s="54.996524259832526" w="36.54876708984375"/>' +
-    //   '</query>' +
-    //   '<print/>' +
-    //   '</osm-script>';
-    // console.log(xml2json(test, {compact: true}));
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      // console.log(coords);
+      this.setState({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        accuracy: coords.accuracy
+      });
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-      const xml = {
-        _declaration: { _attributes: { version: '1.0', encoding: 'UTF-8' } },
-        'osm-script': {
-          _attributes: { output: 'json' },
-          query: {
-            _attributes: { into: '_', type: 'node' },
-            'has-kv': {
-              _attributes: {
-                k: 'amenity',
-                modv: '',
-                v: 'pub'
-              }
-            },
-            'bbox-query': {
-              _attributes: {
-                e: `${this.state.longitude + 0.5}`,
-                into: '_',
-                n: `${this.state.latitude + 0.5}`,
-                s: `${this.state.latitude - 0.5}`,
-                w: `${this.state.longitude - 0.5}`
-              }
-            }
-          },
-          print: {}
-        }
-      };
-      const uri = encodeURIComponent(js2xml(xml, { compact: true }));
-      fetch(`https://overpass-api.de/api/interpreter?data=${uri}`)
+      const s = coords.latitude - 0.4;
+      const w = coords.longitude - 0.4;
+      const n = coords.latitude + 0.4;
+      const e = coords.longitude + 0.4;
+      const bbox = `${s},${w},${n},${e}`;
+
+      fetch(`https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=pub](${bbox});out;`)
         .then(response => response.json())
         .then(json => this.setState({ features: osmtogeojson(json) }));
     }, error => console.log(error));
@@ -66,6 +41,10 @@ class App extends Component {
   render() {
     return (
       <div>
+        {
+          isEmpty(this.state.features) &&
+          <h2>loading...</h2>
+        }
         {
           !isEmpty(this.state.features) &&
           <Map

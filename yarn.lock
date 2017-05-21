@@ -4194,7 +4194,7 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-normalize.css@^7.0.0:
+normalize.css@7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-7.0.0.tgz#abfb1dd82470674e0322b53ceb1aaf412938e4bf"
 
@@ -6447,12 +6447,6 @@ xdg-basedir@^2.0.0:
 xml-char-classes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/xml-char-classes/-/xml-char-classes-1.0.0.tgz#64657848a20ffc5df583a42ad8a277b4512bbc4d"
-
-xml-js@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.2.2.tgz#8443dbd71d3e384dc58dd38da4c9f4b92184fa3b"
-  dependencies:
-    sax "^1.2.1"
 
 xml-name-validator@^2.0.1:
   version "2.0.1"

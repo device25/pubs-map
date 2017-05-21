@@ -16,8 +16,7 @@
     "ramda": "0.23.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
-    "styled-components": "1.4.6",
-    "xml-js": "1.2.2"
+    "styled-components": "1.4.6"
   },
   "scripts": {
     "start": "react-scripts start",
