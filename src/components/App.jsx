@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { xml2json, js2xml } from 'xml-js';
+import { js2xml } from 'xml-js';
 import osmtogeojson from 'osmtogeojson';
 import { isEmpty } from 'ramda';
 
@@ -31,30 +31,36 @@ class App extends Component {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude });
       const xml = {
-        "_declaration": { "_attributes": { "version": "1.0", "encoding": "UTF-8" } },
-        "osm-script": {
-          "_attributes": { "output": "json" },
-          "query": {
-            "_attributes": { "into": "_", "type": "node" },
-            "has-kv": { "_attributes": { "k": "amenity", "modv": "", "v": "pub" } },
-            "bbox-query": {
-              "_attributes": {
-                "e": `${this.state.longitude + 0.5}`,
-                "into": "_",
-                "n": `${this.state.latitude + 0.5}`,
-                "s": `${this.state.latitude - 0.5}`,
-                "w": `${this.state.longitude - 0.5}`
+        _declaration: { _attributes: { version: '1.0', encoding: 'UTF-8' } },
+        'osm-script': {
+          _attributes: { output: 'json' },
+          query: {
+            _attributes: { into: '_', type: 'node' },
+            'has-kv': {
+              _attributes: {
+                k: 'amenity',
+                modv: '',
+                v: 'pub'
+              }
+            },
+            'bbox-query': {
+              _attributes: {
+                e: `${this.state.longitude + 0.5}`,
+                into: '_',
+                n: `${this.state.latitude + 0.5}`,
+                s: `${this.state.latitude - 0.5}`,
+                w: `${this.state.longitude - 0.5}`
               }
             }
           },
-          "print": {}
+          print: {}
         }
       };
       const uri = encodeURIComponent(js2xml(xml, { compact: true }));
       fetch(`https://overpass-api.de/api/interpreter?data=${uri}`)
         .then(response => response.json())
         .then(json => this.setState({ features: osmtogeojson(json) }));
-    }, (error) => console.log(error));
+    }, error => console.log(error));
   }
 
   render() {
@@ -63,7 +69,7 @@ class App extends Component {
         {
           !isEmpty(this.state.features) &&
           <Map
-            pubs={ this.state.features }
+            pubs={this.state.features}
             center={[this.state.longitude, this.state.latitude]}
           />
         }

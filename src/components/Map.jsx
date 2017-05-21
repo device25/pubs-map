@@ -1,10 +1,15 @@
 /* global mapboxgl */
 import React, { PureComponent } from 'react';
-import './map.css';
+import styled from 'styled-components';
 
 /* eslint-disable max-len */
 const accessToken = 'pk.eyJ1IjoiZGV2aWNlMjUiLCJhIjoiY2lzaGN3d2tiMDAxOTJ6bGYydDZrcHptdiJ9.UK55aUzBquqYns1AdnuTQg';
 /* eslint-enable max-len */
+
+const Wrap = styled.div`
+  width: 100%;
+  height: 100vh;
+`;
 
 class Map extends PureComponent {
   constructor(props) {
@@ -27,8 +32,8 @@ class Map extends PureComponent {
   }
 
   onLoad() {
-    this.map.addSource("earthquakes", {
-      type: "geojson",
+    this.map.addSource('earthquakes', {
+      type: 'geojson',
       // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
       // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
       data: this.props.pubs,
@@ -36,8 +41,8 @@ class Map extends PureComponent {
       clusterMaxZoom: 20, // Max zoom to cluster points on
       clusterRadius: 160 // Use small cluster radius for the heatmap look
     });
-    this.map.addSource("pubs", {
-      type: "geojson",
+    this.map.addSource('pubs', {
+      type: 'geojson',
       data: this.props.pubs
     });
 
@@ -53,35 +58,35 @@ class Map extends PureComponent {
 
     layers.forEach((layer, i) => {
       this.map.addLayer({
-        "id": "cluster-" + i,
-        "type": "circle",
-        "source": "earthquakes",
-        "paint": {
-          "circle-color": layer[1],
-          "circle-radius": 70,
-          "circle-blur": 1 // blur the circles to get a heatmap look
+        id: `cluster-${i}`,
+        type: 'circle',
+        source: 'earthquakes',
+        paint: {
+          'circle-color': layer[1],
+          'circle-radius': 70,
+          'circle-blur': 1 // blur the circles to get a heatmap look
         },
-        "filter": i === layers.length - 1 ?
-          [">=", "point_count", layer[0]] :
-          ["all",
-            [">=", "point_count", layer[0]],
-            ["<", "point_count", layers[i + 1][0]]]
+        filter: i === layers.length - 1
+          ? ['>=', 'point_count', layer[0]]
+          : ['all',
+            ['>=', 'point_count', layer[0]],
+            ['<', 'point_count', layers[i + 1][0]]
+          ]
       });
     });
 
     this.map.addLayer({
-      "id": "pubs",
-      "type": "circle",
-      "source": "pubs",
-      "paint": {
-        "circle-color": '#5c9ed8',
+      id: 'pubs',
+      type: 'circle',
+      source: 'pubs',
+      paint: {
+        'circle-color': '#5c9ed8'
       }
     });
 
+    this.popup = new mapboxgl.Popup();
     this.map.on('mousemove', this.onMouseMove);
   }
-
-  popup = new mapboxgl.Popup();
 
   onMouseMove(e) {
     const features = this.map.queryRenderedFeatures(e.point, { layers: ['pubs'] });
@@ -98,12 +103,11 @@ class Map extends PureComponent {
         `)
         .addTo(this.map);
     }
-
   }
 
   render() {
     return (
-      <div id='map' />
+      <Wrap id='map' />
     );
   }
 }
