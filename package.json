@@ -1,5 +1,5 @@
 {
-  "name": "white-spots",
+  "name": "pubs-map",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -17,12 +17,13 @@
     "ramda": "0.23.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
-    "styled-components": "1.4.6"
+    "styled-components": "2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "lint": "eslint src",
     "eject": "react-scripts eject"
   }
 }
