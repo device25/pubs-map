@@ -36,6 +36,15 @@ class Map extends PureComponent {
     this.map.on('load', this.onLoad);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { filteredPubs } = nextProps;
+    const source = this.map.getSource('pubs');
+
+    if (source) {
+      source.setData(filteredPubs);
+    }
+  }
+
   onLoad() {
     const { center, accuracy } = this.props;
 
@@ -139,6 +148,15 @@ class Map extends PureComponent {
         'circle-color': '#5c9ed8'
       }
     });
+    this.map.addLayer({
+      id: 'pubs-names',
+      type: 'symbol',
+      source: 'pubs',
+      layout: {
+        'text-field': '{name}',
+        'text-anchor': 'bottom'
+      }
+    });
 
     this.map.on('mousemove', this.onMouseMove);
   }
@@ -169,6 +187,7 @@ class Map extends PureComponent {
 
 Map.propTypes = {
   pubs: PropTypes.object,
+  filteredPubs: PropTypes.object,
   center: PropTypes.arrayOf(
     PropTypes.number
   ),
