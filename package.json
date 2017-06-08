@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "commit": "git-cz",
+    "release": "standard-version",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "lint": "eslint src",
