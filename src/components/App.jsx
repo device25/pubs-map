@@ -26,7 +26,7 @@ class App extends PureComponent {
       const e = coords.longitude + 0.4;
       const bbox = `${s},${w},${n},${e}`;
 
-      fetch(`https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=pub](${bbox});out;`)
+      fetch(`https://overpass.openstreetmap.fr/api/interpreter?data=[out:json];node[amenity=pub](${bbox});out;`)
         .then(response => response.json())
         .then(json => this.setState({ pubs: osmtogeojson(json) }));
     }, error => console.log(error));
