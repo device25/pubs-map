@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import osmtogeojson from 'osmtogeojson';
 import { isEmpty } from 'ramda';
 
 import Search from './Search';
 import Map from './Map';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pubs: {},
-      filteredPubs: {}
-    };
-    this.search = this.search.bind(this);
-  }
+class App extends PureComponent {
+  state = {
+    pubs: {},
+    filteredPubs: {}
+  };
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -36,7 +32,7 @@ class App extends Component {
     }, error => console.log(error));
   }
 
-  search(e) {
+  search = (e) => {
     const searchQuery = e.target.value.trim();
     const result = this.state.pubs.features.filter(feature => (
       feature.properties.name && feature.properties.name.toLowerCase().match(searchQuery)
@@ -51,7 +47,9 @@ class App extends Component {
   }
 
   render() {
-    const { pubs, filteredPubs, longitude, latitude, accuracy } = this.state;
+    const {
+      pubs, filteredPubs, longitude, latitude, accuracy
+    } = this.state;
 
     return (
       <div>

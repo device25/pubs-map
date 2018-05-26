@@ -15,13 +15,6 @@ const Wrap = styled.div`
 `;
 
 class Map extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.popup = new mapboxgl.Popup();
-    this.onLoad = this.onLoad.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
-  }
-
   componentDidMount() {
     mapboxgl.accessToken = accessToken;
     this.map = new mapboxgl.Map({
@@ -45,7 +38,7 @@ class Map extends PureComponent {
     }
   }
 
-  onLoad() {
+  onLoad = () => {
     const { center, accuracy } = this.props;
 
     this.map.addSource('location', {
@@ -161,11 +154,11 @@ class Map extends PureComponent {
     this.map.on('mousemove', this.onMouseMove);
   }
 
-  onMouseMove(e) {
+  onMouseMove = (e) => {
     const features = this.map.queryRenderedFeatures(e.point, { layers: ['pubs'] });
     if (features.length > 0) {
       // console.log(features[0]);
-      const properties = features[0].properties;
+      const { properties } = features[0];
 
       this.popup
         .setLngLat(e.lngLat)
@@ -178,6 +171,8 @@ class Map extends PureComponent {
     }
   }
 
+  popup = new mapboxgl.Popup();
+
   render() {
     return (
       <Wrap id='map' />
@@ -186,12 +181,10 @@ class Map extends PureComponent {
 }
 
 Map.propTypes = {
-  pubs: PropTypes.object,
-  filteredPubs: PropTypes.object,
-  center: PropTypes.arrayOf(
-    PropTypes.number
-  ),
-  accuracy: PropTypes.number
+  pubs: PropTypes.object.isRequired,
+  filteredPubs: PropTypes.object.isRequired,
+  center: PropTypes.arrayOf(PropTypes.number).isRequired,
+  accuracy: PropTypes.number.isRequired
 };
 
 export default Map;
