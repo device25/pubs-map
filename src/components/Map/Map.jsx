@@ -1,22 +1,19 @@
-/* global mapboxgl */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import mapboxgl from 'mapbox-gl';
 
-import { pixelValue } from '../utils';
+// config
+import mapToken from '../../config/mapToken';
 
-/* eslint-disable max-len */
-const accessToken = 'pk.eyJ1IjoiZGV2aWNlMjUiLCJhIjoiY2lzaGN3d2tiMDAxOTJ6bGYydDZrcHptdiJ9.UK55aUzBquqYns1AdnuTQg';
-/* eslint-enable max-len */
+// utils
+import { pixelValue } from '../../utils';
 
-const Wrap = styled.div`
-  width: 100%;
-  height: 100vh;
-`;
+// styled
+import Container from './styled/Container';
 
 class Map extends PureComponent {
   componentDidMount() {
-    mapboxgl.accessToken = accessToken;
+    mapboxgl.accessToken = mapToken;
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
@@ -29,14 +26,14 @@ class Map extends PureComponent {
     this.map.on('load', this.onLoad);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { filteredPubs } = nextProps;
-    const source = this.map.getSource('pubs');
-
-    if (source) {
-      source.setData(filteredPubs);
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const { filteredPubs } = nextProps;
+  //   const source = this.map.getSource('pubs');
+  //
+  //   if (source) {
+  //     source.setData(filteredPubs);
+  //   }
+  // }
 
   onLoad = () => {
     const { center, accuracy } = this.props;
@@ -174,15 +171,13 @@ class Map extends PureComponent {
   popup = new mapboxgl.Popup();
 
   render() {
-    return (
-      <Wrap id='map' />
-    );
+    return <Container id='map' />;
   }
 }
 
 Map.propTypes = {
   pubs: PropTypes.object.isRequired,
-  filteredPubs: PropTypes.object.isRequired,
+  // filteredPubs: PropTypes.object.isRequired,
   center: PropTypes.arrayOf(PropTypes.number).isRequired,
   accuracy: PropTypes.number.isRequired
 };
