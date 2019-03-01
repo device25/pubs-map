@@ -1,20 +1,12 @@
 {
-  "parser": "babel-eslint",
-  "extends": "airbnb",
-  "plugins": [
-    "import",
-    "react"
-  ],
+  "extends": "urbica/react",
   "env": {
     "browser": true,
     "node": true,
     "jest": true
   },
   "rules": {
-    "jsx-quotes": ["error", "prefer-single"],
-    "comma-dangle": ["error", "never"],
     "no-confusing-arrow": [0],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/forbid-prop-types": [1, { "forbid": ["any", "array"] }]
   }
 }
