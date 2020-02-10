@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import mapboxgl from 'mapbox-gl';
 
 // config
@@ -8,7 +7,10 @@ import mapToken from '../../config/mapToken';
 // utils
 import { pixelValue } from '../../utils';
 
-import Container from './Container';
+const style = {
+  width: '100%',
+  height: '100vh'
+};
 
 class Map extends PureComponent {
   popup = new mapboxgl.Popup();
@@ -126,15 +128,12 @@ class Map extends PureComponent {
 
   render() {
     return (
-      <Container id='map' />
+      <div
+        id='map'
+        style={style}
+      />
     );
   }
 }
-
-Map.propTypes = {
-  pubs: PropTypes.object.isRequired,
-  center: PropTypes.arrayOf(PropTypes.number).isRequired,
-  accuracy: PropTypes.number.isRequired
-};
 
 export default Map;
